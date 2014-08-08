@@ -1,0 +1,38 @@
+{
+"surveys":{
+
+  "sample":
+      {
+      "name": "name",
+      "prettyName": "prettyName",
+      "qualifyingQuestions": [
+        {
+          "text": "",
+          "short": ""
+        }
+      ],
+      "kanoQuestions": [
+        {
+          "functional": "",
+          "dysfunctional": "",
+          "importance": "",
+          "short": ""
+        }
+      ],
+      "responses": [
+        {
+          "qualifiers": [
+            ""
+          ],
+          "kano": [
+            {
+              "f": "",
+              "d": "",
+              "i": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
