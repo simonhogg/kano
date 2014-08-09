@@ -53,10 +53,9 @@
 var app = angular.module("surveyApp", ["firebase"]);
 
 app.factory("Survey", ["$firebase", function($firebase) {
-  return function(surveyname) {
+  return function(surveyname, key) {
     // create a reference to the appropriate survey
-    var ref = new Firebase("https://blistering-fire-8182.firebaseio.com/surveys/").child(surveyname);
-    // return it as a sync'ed object
+    var ref = new Firebase("https://blistering-fire-8182.firebaseio.com/surveys/").child(surveyname).child(key);
     return $firebase(ref);
   }
 }]);
@@ -64,25 +63,36 @@ app.factory("Survey", ["$firebase", function($firebase) {
 app.controller('SurveyController', ["$scope", "Survey", 
     function($scope, Survey) {
 
-      $scope.sync = Survey('sample');
+      $scope.header = Survey('sample', 'header').$asObject();
+      $scope.header.$bindTo($scope, 'header');
+      $scope.qualifyingQuestions = Survey('sample', 'qualifyingQuestions').$asArray();
+      $scope.kanoQuestions = Survey('sample', 'kanoQuestions').$asArray();
 
-      $scope.data = $scope.sync.$asObject();
 
-        $scope.addQuestion = function() {
-            $scope.data.kanoQuestions.push({
-                functional: $scope.qFunctional,
-                dysfunctional: $scope.qDysfunctional,
-                importance: $scope.qImportance,
-                short: $scope.qShort
+        $scope.addKanoQuestion = function() {
+            $scope.kanoQuestions.$add({
+                functional: $scope.kqFunctional,
+                dysfunctional: $scope.kqDysfunctional,
+                importance: $scope.kqImportance,
+                short: $scope.kqShort
             });
-            $scope.qFunctional = '';
-            $scope.qDysfunctional = '';
-            $scope.qImportance = '';
-            $scope.qShort = '';
+            $scope.kqFunctional = '';
+            $scope.kqDysfunctional = '';
+            $scope.kqImportance = '';
+            $scope.kqShort = '';
         };
 
-        $scope.saveSurvey = function() {
-          $scope.sync.$update('kanoQuestions', angular.copy($scope.data.kanoQuestions));
+        $scope.addQualifyingQuestion = function() {
+            $scope.qualifyingQuestions.$add({
+                text: $scope.qqText,
+                short: $scope.qqShort
+            });
+            $scope.qqText = '';
+            $scope.qqShort = '';
+        };
+
+        $scope.removeKanoQuestion = function(id) {
+          $scope.kanoQuestions.$remove(id);
         };
     }]
 );

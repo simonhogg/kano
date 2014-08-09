@@ -50,13 +50,39 @@
     </nav>
     <main ng-controller="SurveyController">
     <h1 id="create">
-    <input type="text" ng-model="data.prettyName" placeholder="Survey Name">
+    <input type="text" ng-model="header.prettyName" placeholder="Survey Name">
     </h1>
     <p>
-      <input type="text" ng-model="data.name" placeholder="shortName">
+      <input type="text" ng-model="header.name" placeholder="shortName">
     </p>
+    <h3>Qualifying Questions</h3>
     <ol>
-      <li ng-repeat="question in data.kanoQuestions">
+      <li ng-repeat="question in qualifyingQuestions">
+        {{question.text}} [{{question.short}}] | <a href="#" ng-click="qualifyingQuestions.$remove(question)">X</a>
+      </li>
+    </ol>
+    <section class="sh_highlight highlight-module--inline" name='new_question'>
+      <p class="highlight-module__title">
+      New Qualifying Question
+      </p>
+      <p>
+      <form ng-submit="addQualifyingQuestion()">
+        <div class="g--half">
+          <textarea rows='1' class="questionEntry" required ng-model="qqText" placeholder="Qualifying question text"></textarea>
+        </div>
+        <div class="g--half g--last">
+          <input type="text" class="questionEntry halfwidth" required ng-model="qqShort" placeholder="short">
+          <input type="submit" value="Add" class="button--primary textheight">
+        </div>
+      <br>
+      </form>
+      </p>
+    </section>
+
+    <h3>Kano Questions</h3>
+    <ol>
+      <li ng-repeat="question in kanoQuestions">
+      <a href="#" ng-click="kanoQuestions.$remove(question)">X</a>
         <ul>
           <li>{{question.functional}}</li>
           <li>{{question.dysfunctional}}</li>
@@ -66,41 +92,38 @@
     </ol>
     <section class="sh_highlight highlight-module--inline" name='new_question'>
       <p class="highlight-module__title">
-      New Question
+      New Kano Question
       </p>
       <p>
-      <form ng-submit="addQuestion()">
+      <form ng-submit="addKanoQuestion()">
         <div class="g-wide--1 g-medium--half">
-          <label for="qFunctional">Functional</label>
+          <label for="kqFunctional">Functional</label>
         </div>
         <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" ng-model="qFunctional" placeholder="If the product had this benefit, how would you feel?"></textarea>
+          <textarea class="questionEntry" required ng-model="kqFunctional" placeholder="If the product had this benefit, how would you feel?"></textarea>
         </div>
         <div class="g-wide--1 g-medium--half">
-          <label for="qDysfunctional">Dysfunctional</label>
+          <label for="kqDysfunctional">Dysfunctional</label>
         </div>
         <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" ng-model="qDysfunctional" placeholder="If the product did not have this benefit, how would you feel?"></textarea>
+          <textarea class="questionEntry" required ng-model="kqDysfunctional" placeholder="If the product did not have this benefit, how would you feel?"></textarea>
         </div>
         <div class="g-wide--1 g-medium--half">
-          <label for="qImportance">Importance</label>
+          <label for="kqImportance">Importance</label>
         </div>
         <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" ng-model="qImportance" placeholder="This benefit"></textarea>
+          <textarea class="questionEntry" required ng-model="kqImportance" placeholder="This benefit"></textarea>
         </div>
         <div class="g-wide--1 g-medium--half">
-          <label for="qShort">Short</label>
+          <label for="kqShort">Short</label>
         </div>
         <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <input type="text" class="questionEntry" ng-model="qShort" placeholder="benefit">
+          <input type="text" class="questionEntry" required ng-model="kqShort" placeholder="benefit">
         </div>
         <input type="submit" value="Add" class="button--primary">
       </form>
       </p>
     </section>
-    <div class="styleguide__inverted-block"><a href="#0" class="button--primary" ng-click="saveSurvey()">Save Survey</a></div>
-
-{{data}}
 
     </main>
     <!-- build:js scripts/main.min.js -->
