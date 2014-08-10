@@ -1,24 +1,24 @@
 <!doctype html>
-<html lang="" ng-app="surveyApp">
+<html lang="" ng-app="surveyApp" ng-controller="MainCtrl">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Web Starter Kit</title>
+    <title>{{Page.title()}}</title>
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="196x196" href="images/touch/chrome-touch-icon-196x196.png">
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Web Starter Kit">
+    <meta name="apple-mobile-web-app-title" content="Kano Surveyor">
     <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
     <meta name="msapplication-TileColor" content="#3372DF">
     <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
     <!--
-    <link rel="canonical" href="http://www.example.com/">
+    <link rel="canonical" href="http://www.hogg.us/kano">
     -->
     <!-- build:css styles/components/main.min.css -->
     <link rel="stylesheet" href="styles/h5bp.css">
@@ -27,6 +27,7 @@
     <!-- endbuild -->
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular-route.min.js"></script>
     <!-- Firebase -->
     <script src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
     <!-- AngularFire -->
@@ -36,7 +37,7 @@
     <header class="app-bar promote-layer">
       <div class="app-bar-container">
         <button class="menu"><img src="images/hamburger.svg" alt="Menu"></button>
-        <h1 class="logo">Create Survey</h1>
+        <h1 class="logo">{{Page.header()}}</h1>
         <section class="app-bar-actions">
           <!-- Put App Bar Buttons Here -->
         </section>
@@ -45,89 +46,22 @@
     <nav class="navdrawer-container promote-layer">
       <h4>Navigation</h4>
       <ul>
-        <li><a href="styleguide/index.html">Style Guide</a></li>
+        <li><a href="#/">Open/Create Survey</a></li>
+        <li><a href="#/edit/{{Page.surveyId()}}">Edit Survey</a></li>
+        <li><a href="#/enter_results/{{Page.surveyId()}}">Enter Results</a></li>
+        <li><a href="#/view_results/{{Page.surveyId()}}">Analysis</a></li>
       </ul>
     </nav>
-    <main ng-controller="SurveyController">
-    <h1 id="create">
-    <input type="text" ng-model="header.prettyName" placeholder="Survey Name">
-    </h1>
-    <p>
-      <input type="text" ng-model="header.name" placeholder="shortName">
-    </p>
-    <h3>Qualifying Questions</h3>
-    <ol>
-      <li ng-repeat="question in qualifyingQuestions">
-        {{question.text}} [{{question.short}}] | <a href="#" ng-click="qualifyingQuestions.$remove(question)">X</a>
-      </li>
-    </ol>
-    <section class="sh_highlight highlight-module--inline" name='new_question'>
-      <p class="highlight-module__title">
-      New Qualifying Question
-      </p>
-      <p>
-      <form ng-submit="addQualifyingQuestion()">
-        <div class="g--half">
-          <textarea rows='1' class="questionEntry" required ng-model="qqText" placeholder="Qualifying question text"></textarea>
-        </div>
-        <div class="g--half g--last">
-          <input type="text" class="questionEntry halfwidth" required ng-model="qqShort" placeholder="short">
-          <input type="submit" value="Add" class="button--primary textheight">
-        </div>
-      <br>
-      </form>
-      </p>
-    </section>
-
-    <h3>Kano Questions</h3>
-    <ol>
-      <li ng-repeat="question in kanoQuestions">
-      <a href="#" ng-click="kanoQuestions.$remove(question)">X</a>
-        <ul>
-          <li>{{question.functional}}</li>
-          <li>{{question.dysfunctional}}</li>
-          <li>{{question.short}}</li>
-        </ul>
-      </li>
-    </ol>
-    <section class="sh_highlight highlight-module--inline" name='new_question'>
-      <p class="highlight-module__title">
-      New Kano Question
-      </p>
-      <p>
-      <form ng-submit="addKanoQuestion()">
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqFunctional">Functional</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" required ng-model="kqFunctional" placeholder="If the product had this benefit, how would you feel?"></textarea>
-        </div>
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqDysfunctional">Dysfunctional</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" required ng-model="kqDysfunctional" placeholder="If the product did not have this benefit, how would you feel?"></textarea>
-        </div>
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqImportance">Importance</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" required ng-model="kqImportance" placeholder="This benefit"></textarea>
-        </div>
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqShort">Short</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <input type="text" class="questionEntry" required ng-model="kqShort" placeholder="benefit">
-        </div>
-        <input type="submit" value="Add" class="button--primary">
-      </form>
-      </p>
-    </section>
-
+    
+    <main>
+      <div ng-view></div>
     </main>
+
+
     <!-- build:js scripts/main.min.js -->
     <script src="scripts/main.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers.js"></script>
     <!-- endbuild -->
     <!-- Built with love using Web Starter Kit -->
   </body>

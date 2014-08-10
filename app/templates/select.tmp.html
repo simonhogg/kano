@@ -1,0 +1,16 @@
+<h3>Select a survey</h3>
+<ul>
+	<li ng-repeat="survey in surveyIds">{{survey.$value}} [
+		<a href="#/edit/{{survey.$value}}">Edit</a> |
+		<a href="#/enter_results/{{survey.$value}}">Enter Results</a> |
+		<a href="#/view_results/{{survey.$value}}">View Results</a> ]
+		[<a href="#" ng-click="deleteSurvey(survey)">X</a>]
+	</li>
+</ul>
+<h3>Create a new survey</h3>
+<p>
+<form ng-submit="createSurvey()">
+	<input type="text" ng-model="shortName" placeholder="shortName" required class="questionEntry halfwidth">
+	<input type="submit" value="Create" class="button--primary textheight">
+</form>
+</p>
