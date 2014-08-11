@@ -1,3 +1,7 @@
+'use strict';
+/* global angular */
+/* global Firebase */
+
 var surveyApp = angular.module('surveyApp', [
     'firebase',
     'ngRoute',
@@ -55,7 +59,7 @@ surveyApp.factory('Survey', ['$firebase',
                 var ref = new Firebase(baseURL + '/surveys');
                 return ref;
             }
-        }
+        };
     }
 ]);
 

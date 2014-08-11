@@ -1,3 +1,14 @@
 <h3>Analysis</h3>
-
-<p ng-repeat="r in results">{{r}}</p>
+<table>
+	<tr>
+		<th>&nbsp;</th>
+		<th ng-repeat="q in ['A','O','M','I','R','Q','Classification', 'Importance']">{{q}}</th>
+	</tr>
+	<tr ng-repeat="k in kanoKeys">
+		<td>{{k.key}}</td>
+		<td ng-repeat="q in ['A','O','M','I','R','Q','classification']">{{k[q]}}</td>
+		<td>{{k.iS/k.iN | number: 2}}</td>
+		</tr>
+</table>
+<hr>
+{{kanoKeys}}
