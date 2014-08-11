@@ -1,3 +1,11 @@
+.kanoTable {
+  display: inline-block;
+  width: 18%;
+  border: 1px solid #eee;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
 
 .questionEntry {
   width: 90%;

@@ -1,24 +1,51 @@
 <h2>Enter Results</h2>
-    <h3>Qualifying Questions</h3>
-    <ol>
-      <li ng-repeat="question in qualifyingQuestions">
-        {{question.text}} <input type="text" class="questionEntry" ng-model="responses.qualifiers[question.short]"> 
-      </li>
-    </ol>
-
-
-    <h3>Kano Questions</h3>
-    <ol>
-      <li ng-repeat="question in kanoQuestions">
-        <ul>
-          <li>
-          	{{question.functional}}
-          	<br>
-          	<input type="radio" name="{{question.short}}_f" value="1"> I like it
-
-          	</li>
-          <li>{{question.dysfunctional}}</li>
-          <li>{{question.short}}</li>
-        </ul>
-      </li>
-    </ol>
+<h3>Qualifying Questions</h3>
+<ol>
+	<li ng-repeat="question in qualifyingQuestions">
+		{{question.text}} <input type="text" class="questionEntry" ng-model="responses.qualifiers[question.short]">
+	</li>
+</ol>
+<h3>Kano Questions</h3>
+<ol>
+	<li ng-repeat="question in kanoQuestions">
+		<ul>
+			<li>
+				{{question.functional}}
+				<br>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="1"> <br>I like it
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="2"> <br>I expect it
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="3"> <br>I'm neutral
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="4"> <br>I can tolerate it
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="5"> <br>I dislike it
+				</div>
+			</li>
+			<li>{{question.dysfunctional}}
+				<br>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="1"> <br>I like it
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="2"> <br>I expect it
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="3"> <br>I'm neutral
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="4"> <br>I can tolerate it
+				</div>
+				<div class="kanoTable">
+					<input type="radio" name="{{question.short}}_f" value="5"> <br>I dislike it
+				</div>
+			</li>
+		</ul>
+	</li>
+</ol>
