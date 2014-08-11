@@ -1,51 +1,97 @@
 <h2>Enter Results</h2>
+<label for="keyboardEntry">Keyboard data entry?</label>
+<input type="Checkbox" name="keyboardEntry" ng-model="keyboardEntry">
 <h3>Qualifying Questions</h3>
-<ol>
-	<li ng-repeat="question in qualifyingQuestions">
-		{{question.text}} <input type="text" class="questionEntry" ng-model="responses.qualifiers[question.short]">
-	</li>
-</ol>
-<h3>Kano Questions</h3>
-<ol>
-	<li ng-repeat="question in kanoQuestions">
-		<ul>
-			<li>
-				{{question.functional}}
-				<br>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="1"> <br>I like it
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="2"> <br>I expect it
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="3"> <br>I'm neutral
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="4"> <br>I can tolerate it
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="5"> <br>I dislike it
-				</div>
-			</li>
-			<li>{{question.dysfunctional}}
-				<br>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="1"> <br>I like it
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="2"> <br>I expect it
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="3"> <br>I'm neutral
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="4"> <br>I can tolerate it
-				</div>
-				<div class="kanoTable">
-					<input type="radio" name="{{question.short}}_f" value="5"> <br>I dislike it
-				</div>
-			</li>
-		</ul>
-	</li>
-</ol>
+<form>
+	<ol>
+		<li ng-repeat="question in qualifyingQuestions">
+			{{question.text}} <input type="text" class="questionEntry" ng-model="$parent.formData.qualifiers[question.short]">
+		</li>
+	</ol>
+	<h3>Kano Questions</h3>
+	<ol>
+		<li ng-repeat="question in kanoQuestions" class="formattedSurvey">
+			<ul>
+				<li>
+					{{question.functional}}
+					<input type="number" ng-show="keyboardEntry" ng-model="$parent.formData.kano.f[question.short]" min="1" max="5">
+					<br>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_f" ng-model="$parent.formData.kano.f[question.short]" value="1"> <br>I like it
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_f" ng-model="$parent.formData.kano.f[question.short]" value="2"> <br>I expect it
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_f" ng-model="$parent.formData.kano.f[question.short]" value="3"> <br>I'm neutral
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_f" ng-model="$parent.formData.kano.f[question.short]" value="4"> <br>I can tolerate it
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_f" ng-model="$parent.formData.kano.f[question.short]" value="5"> <br>I dislike it
+					</div>
+				</li>
+				<li>{{question.dysfunctional}}
+					<input type="number" ng-show="keyboardEntry" ng-model="$parent.formData.kano.d[question.short]" min="1" max="5">
+					<br>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_d" ng-model="$parent.formData.kano.d[question.short]" value="1"> <br>I like it
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_d" ng-model="$parent.formData.kano.d[question.short]" value="2"> <br>I expect it
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_d" ng-model="$parent.formData.kano.d[question.short]" value="3"> <br>I'm neutral
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_d" ng-model="$parent.formData.kano.d[question.short]" value="4"> <br>I can tolerate it
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_d" ng-model="$parent.formData.kano.d[question.short]" value="5"> <br>I dislike it
+					</div>
+				</li>
+			</ul>
+		</li>
+	</ol>
+	<h4>Rate the Importance of Each Feature/Benefit</h4>
+	<ol>
+		<li ng-repeat="question in kanoQuestions" class="formattedSurvey tenthwidthDivs">
+			<ul>
+				<li>
+					{{question.importance}} <input  type="number" ng-show="keyboardEntry" ng-model="$parent.formData.kano.i[question.short]" min="1" max="10">
+					<br>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="1"> <br>1
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="2"> <br>2
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="3"> <br>3
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="4"> <br>4
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="5"> <br>5
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="6"> <br>6
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="7"> <br>7
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="8"> <br>8
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="9"> <br>9
+					</div>
+					<div class="kanoTable">
+						<input type="radio" name="{{question.short}}_i" ng-model="$parent.formData.kano.i[question.short]" value="10"> <br>10
+					</div>
+				</li>
+			</ul></li></ol>
+			<input type="submit" value="Add" ng-click="addResults()" class="button--primary textheight">
+		</form>

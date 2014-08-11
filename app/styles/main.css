@@ -1,3 +1,15 @@
+.tenthwidthDivs div {
+  width: 9%;
+}
+
+.formattedSurvey {
+  padding-bottom: 2em;
+}
+
+.formattedSurvey li {
+  padding-bottom: 1em;
+}
+
 .kanoTable {
   display: inline-block;
   width: 18%;

@@ -1,1 +1,18 @@
 <h1>View Results</h1>
+
+<table class="table-4">
+<thead>
+	<tr>
+		<th>&nbsp;</th>
+		<th ng-repeat="q in qualifyingQuestions">{{q.short}}</th>
+		<th ng-repeat="k in kanoQuestions" colspan="3">{{k.short}}</th>
+	</tr>
+	</thead>
+	<tr ng-repeat="r in results">
+		<td><a ng-click="results.$remove(r)">X</a></td>
+		<td ng-repeat="q in qualifyingQuestions">{{r.qualifiers[q.short]}}</td>
+		<td ng-repeat="k in kanoQuestions">{{r.kano.f[k.short]}}</td>
+		<td ng-repeat="k in kanoQuestions">{{r.kano.d[k.short]}}</td>
+		<td ng-repeat="k in kanoQuestions">{{r.kano.i[k.short]}}</td>
+	</tr>
+</table>

@@ -1,7 +1,7 @@
-var surveyApp = angular.module("surveyApp", [
-    "firebase",
-    "ngRoute",
-    "surveyControllers"
+var surveyApp = angular.module('surveyApp', [
+    'firebase',
+    'ngRoute',
+    'surveyControllers'
 ]);
 
 surveyApp.config(['$routeProvider',
@@ -23,27 +23,36 @@ surveyApp.config(['$routeProvider',
             templateUrl: 'templates/view_results.tmp.html',
             controller: 'ViewResultsCtrl'
         }).
+        when('/analysis/:surveyId', {
+            templateUrl: 'templates/analysis.tmp.html',
+            controller: 'AnalysisCtrl'
+        }).
         otherwise({
             redirectTo: '/'
         });
     }
 ]);
 
-surveyApp.factory("Survey", ["$firebase",
+surveyApp.factory('Survey', ['$firebase',
     function($firebase) {
-        var baseURL = "https://blistering-fire-8182.firebaseio.com";
+        var baseURL = 'https://blistering-fire-8182.firebaseio.com';
         return {
             keyRef: function(surveyname, key) {
                 // create a reference to the appropriate survey
-                var ref = new Firebase(baseURL + "/surveys/").child(surveyname).child(key);
+                var ref = new Firebase(baseURL + '/surveys/').child(surveyname).child(key);
+                return $firebase(ref);
+            },
+            ref: function(surveyname) {
+                // create a reference to the appropriate survey
+                var ref = new Firebase(baseURL + '/surveys/').child(surveyname);
                 return $firebase(ref);
             },
             surveyIdRef: function() {
-                var ref = new Firebase(baseURL + "/surveyIds");
+                var ref = new Firebase(baseURL + '/surveyIds');
                 return $firebase(ref);
             },
             surveysRoot: function() {
-                var ref = new Firebase(baseURL + "/surveys");
+                var ref = new Firebase(baseURL + '/surveys');
                 return ref;
             }
         }
@@ -52,7 +61,7 @@ surveyApp.factory("Survey", ["$firebase",
 
 surveyApp.factory('Page', function() {
     var title = 'Kano Surveyor';
-    var header = "Simon's Kano Surveyor";
+    var header = 'Simon\'s Kano Surveyor';
     var surveyId = 'sample';
     return {
         title: function() {
