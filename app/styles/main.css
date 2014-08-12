@@ -77,6 +77,15 @@ body {
   min-height: 100%;
 }
 
+#myStyle body {
+  position: relative;
+  font-family: 'Roboto Condensed', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 300;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+  min-height: 100%;
+}
+
 body.open {
   overflow: hidden;
 }
@@ -266,6 +275,12 @@ button.menu img {
 
 .navdrawer-container ul li a:active {
   background-color: rgba(255, 255, 255, 0.4);
+}
+
+.navdrawer-container ul li a.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: rgb(160, 195, 255);
 }
 
 main {

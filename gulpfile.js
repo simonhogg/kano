@@ -113,7 +113,7 @@ gulp.task('html', function () {
     .pipe($.if('*.css', $.uncss({
       html: [
         'app/index.html',
-        'app/styleguide/index.html'
+        'app/templates/**/*.html'
       ],
       // CSS Selectors for UnCSS to ignore
       ignore: [
@@ -189,3 +189,17 @@ gulp.task('pagespeed', pagespeed.bind(null, {
 
 // Load custom tasks from the `tasks` directory
 try { require('require-dir')('tasks'); } catch (err) {}
+
+
+
+var ftp = require('gulp-ftp');
+
+gulp.task('upload', function () {
+    return gulp.src('dist/**')
+        .pipe(ftp({
+            host: 'ftp.hogg.us',
+            user: 'gulp@hogg.us',
+            pass: '@wCMKutgCiTZ',
+            remotePath: '/kano'
+        }));
+});

@@ -1,6 +1,11 @@
 'use strict';
 /* global angular */
 /* global $location */
+/* global google */
+
+google.load('visualization', '1', {
+    packages: ['corechart']
+});
 
 var surveyControllers = angular.module('surveyControllers', []);
 
@@ -69,6 +74,9 @@ surveyControllers.controller('SelectSurveyCtrl', ['$scope', 'Survey', 'Page',
             //TODO add confirmation
             $scope.surveyIds.$remove(survey);
             Survey.surveysRoot().child(survey.$value).remove();
+            if(survey.$value === $scope.Page.surveyId()){
+                $scope.Page.setSurveyId('');
+            }
         };
     }
 ]);
@@ -153,14 +161,24 @@ surveyControllers.controller('ViewResultsCtrl', ['$scope', '$route', 'Survey', '
     }
 ]);
 
-surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', 'Survey', 'Page',
-    function($scope, $route, Survey, Page) {
+surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll', '$location', 'Survey', 'Page',
+    function($scope, $route, $anchorScroll, $location, Survey, Page) {
         //TODO this code is copied and pasted from EditSurveyCtrl --> refactor
 
         $scope.Page = Page;
         $scope.$route = $route;
-
         $scope.Page.setSurveyId($route.current.params.surveyId);
+
+        // Set a nicer title
+        $scope.Page.setTitle('Kano Surveyor | Analysis');
+
+        $scope.scrollTo = function(id) {
+            var old = $location.hash();
+            $location.hash(id);
+            $anchorScroll();
+            $location.hash(old);
+        };
+
 
         // Bind to the appropriate database items
         $scope.header = Survey.keyRef($scope.Page.surveyId(), 'header').$asObject();
@@ -169,21 +187,25 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', 'Survey', 'Pag
         $scope.kanoQuestions = Survey.keyRef($scope.Page.surveyId(), 'kanoQuestions').$asArray();
         $scope.responses = Survey.keyRef($scope.Page.surveyId(), 'responses').$asArray();
 
-        // Set a nicer title
-        $scope.Page.setTitle('Kano Surveyor | Analysis');
+
 
         // iterate through $scope.results and tally the count of votes for each question
 
         $scope.kanoKeys = [];
         // Create an array of all the short versions of the Kano Questions
-        $scope.kanoQuestions.$loaded().then(function(){
-            for(var i=0; i<$scope.kanoQuestions.length; i++) {
+        $scope.kanoQuestions.$loaded().then(function() {
+            for (var i = 0; i < $scope.kanoQuestions.length; i++) {
                 $scope.kanoKeys.push({
-                    'key':$scope.kanoQuestions[i].short, 
-                    'O':0, 'M':0, 'I':0, 'A':0, 'R':0, 'Q':0,
-                    'iS':0, //sum of importance votes
-                    'iN':0, //number of importance votes
-                    'classification':'', // kano classification
+                    'key': $scope.kanoQuestions[i].short,
+                    'O': 0,
+                    'M': 0,
+                    'I': 0,
+                    'A': 0,
+                    'R': 0,
+                    'Q': 0,
+                    'iS': 0, //sum of importance votes
+                    'iN': 0, //number of importance votes
+                    'classification': '', // kano classification
                     'positiveInfluence': 0.0,
                     'negativeInfluence': 0.0
                 });
@@ -191,51 +213,102 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', 'Survey', 'Pag
         });
 
         // Loop through all the responses and tally votes
-        $scope.responses.$loaded().then(function(){
-            for(var i=0; i<$scope.responses.length; i++) {
+        $scope.responses.$loaded().then(function() {
+            for (var i = 0; i < $scope.responses.length; i++) {
                 //foreach response
                 var r = $scope.responses[i].kano;
-                for(var j=0; j<$scope.kanoKeys.length; j++){
+                for (var j = 0; j < $scope.kanoKeys.length; j++) {
                     //foreach question, increment the property which matches the kano classification
                     $scope.kanoKeys[j][r.k[$scope.kanoKeys[j].key]]++;
-                    console.log('r.i | %d', r.i[$scope.kanoKeys[j].key]);
-                    if(r.i[$scope.kanoKeys[j].key]>0)
-                    {
+                    if (parseInt(r.i[$scope.kanoKeys[j].key], 10) > 0) {
                         //if Importance was specified then update the running total
-                        $scope.kanoKeys[j].iS += r.i[$scope.kanoKeys[j].key];
+                        $scope.kanoKeys[j].iS += parseInt(r.i[$scope.kanoKeys[j].key], 10);
                         $scope.kanoKeys[j].iN++;
                     }
-                    
+
                 }
             }
             // Loop through all the tallied kanoKeys and compute the rest of the values
-            for(var k=0; k<$scope.kanoKeys.length; k++){
-                var denominator = $scope.kanoKeys[k].A+$scope.kanoKeys[k].O+$scope.kanoKeys[k].M+$scope.kanoKeys[k].I;
-                $scope.kanoKeys[k].positiveInfluence = ($scope.kanoKeys[k].A+$scope.kanoKeys[k].O)/denominator;
-                $scope.kanoKeys[k].negativeInfluence = ($scope.kanoKeys[k].O+$scope.kanoKeys[k].M)/denominator;
+            for (var k = 0; k < $scope.kanoKeys.length; k++) {
+                var denominator = $scope.kanoKeys[k].A + $scope.kanoKeys[k].O + $scope.kanoKeys[k].M + $scope.kanoKeys[k].I;
+                $scope.kanoKeys[k].positiveInfluence = ($scope.kanoKeys[k].A + $scope.kanoKeys[k].O) / denominator;
+                $scope.kanoKeys[k].negativeInfluence = -($scope.kanoKeys[k].O + $scope.kanoKeys[k].M) / denominator;
                 var maxValue = 0;
-                var letters = ['A','O','M','I','R','Q'];
-                for(var w=0; w<letters.length; w++){
-                    if($scope.kanoKeys[k][letters[w]]>=maxValue){
+                var letters = ['A', 'O', 'M', 'I', 'R', 'Q'];
+                for (var w = 0; w < letters.length; w++) {
+                    if ($scope.kanoKeys[k][letters[w]] >= maxValue) {
                         maxValue = $scope.kanoKeys[k][letters[w]];
                         $scope.kanoKeys[k].classification = letters[w];
                     }
                 }
-
                 console.log($scope.kanoKeys[k]);
             }
 
-        }
-        );
+            // plot some charts
+            var preChartData = [
+                ['ID', 'Dissatisfaction', 'Satisfaction', 'Importance' ,'']
+            ];
+            
+            for (var z = 0; z < $scope.kanoKeys.length; z++) {
+                var kz = $scope.kanoKeys[z];
+                preChartData.push([kz.key, kz.negativeInfluence, kz.positiveInfluence, kz.classification, kz.iS / kz.iN]);
+            }
+            //$scope.preChartData = preChartData;
+
+            console.log(preChartData);
+            var chartData = google.visualization.arrayToDataTable(preChartData);
+            var chartOptions = {
+                sortBubblesBySize: true,
+                height: 800,
+                width: 800,
+                sizeAxis: {maxSize: 30, minSize: 5},
+                hAxis: {title: 'Potential to Drive Dissatisfaction', direction:-1, maxValue:-1.0, minValue:0},
+                vAxis: {title: 'Potential to Drive Satisfaction', maxValue:1.0, minValue:0},
+                bubble: {
+                    textStyle: {
+                        auraColor: 'none'
+                    }
+                }
+            };
+            var chart = new google.visualization.BubbleChart(document.getElementById('chartdiv'));
+
+            chart.draw(chartData, chartOptions);
+
+            var preBarChartData = [
+                ['ID', 'Dissatisfaction', 'Satisfaction']
+            ];
+            
+            for (z = 0; z < $scope.kanoKeys.length; z++) {
+                var k2z = $scope.kanoKeys[z];
+                preBarChartData.push([k2z.key, k2z.negativeInfluence, k2z.positiveInfluence]);
+            }
+            var barChartData = google.visualization.arrayToDataTable(preBarChartData);
+            var baroptions = {
+                isStacked: true
+            };
+            var barChart = new google.visualization.BarChart(document.getElementById('barchartdiv'));
+            barChart.draw(barChartData, baroptions);
 
 
-        // calculate the importance weight for each question
+        });
+
+
+        $scope.hoggFactorFunction = function(kanoKey) {
+            return (kanoKey.positiveInfluence - kanoKey.negativeInfluence) * (kanoKey.iS / kanoKey.iN);
+        };
 
     }
 ]);
 
-surveyControllers.controller('MainCtrl', ['$scope', 'Page',
-    function($scope, Page) {
+surveyControllers.controller('MainCtrl', ['$scope', '$location', 'Page',
+    function($scope, $location, Page) {
         $scope.Page = Page;
+        $scope.getLinkClass = function(){
+            console.log($scope.Page.surveyId());
+            if($scope.Page.surveyId() === ''){
+                return 'disabled';
+            }
+
+        };
     }
 ]);

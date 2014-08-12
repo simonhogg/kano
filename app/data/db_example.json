@@ -1,0 +1,288 @@
+{
+  "surveyIds" : {
+    "-JU5Fz_yg00-bQt3Jify" : "test",
+    "-JU7O0hnWo8sfF47G-Ar" : "sample"
+  },
+  "surveys" : {
+    "sample" : {
+      "header" : {
+        "name" : "sample",
+        "prettyName" : "Customer Research Sample Kano Survey"
+      },
+      "kanoQuestions" : {
+        "-JU7PDB3Q9xjNk31Fpw7" : {
+          "dysfunctional" : "If a research methodology could not tell you exactly what to do, how would you feel?",
+          "functional" : "If a research methodology could tell you exactly what to do, how would you feel?",
+          "importance" : "Telling you exactly what to do",
+          "short" : "specificity"
+        },
+        "-JU7PQbJj7aYtY3RgakU" : {
+          "dysfunctional" : "If a research methodology was not cheap to implement, how would you feel?",
+          "functional" : "If a research methodology was cheap to implement, how would you feel?",
+          "importance" : "Cost to implement",
+          "short" : "cost"
+        },
+        "-JU7Ps-AhwoJES5Kq60L" : {
+          "dysfunctional" : "If a research methodology did not allow you room to innovate, how would you feel?",
+          "functional" : "If a research methodology allowed room to innovate, how would you feel?",
+          "importance" : "Allowing room to innovate",
+          "short" : "flexibility"
+        },
+        "-JU7Q8xFJnm7IN_EXD40" : {
+          "dysfunctional" : "If a research methodology could not be conducted over the web, how would you feel?",
+          "functional" : "If a research methodology could be conducted over the web, how would you feel?",
+          "importance" : "Conducted over the web",
+          "short" : "web conducted"
+        },
+        "-JU7QdkJB_5AgRP47jPB" : {
+          "dysfunctional" : "If a research methodology was not well established and unfamiliar to your peers, how would you feel?",
+          "functional" : "If a research methodology was well established and familiar to your peers, how would you feel?",
+          "importance" : "Being well established and familiar",
+          "short" : "established"
+        }
+      },
+      "qualifyingQuestions" : {
+        "-JU7OpltAsYXEb4JsHs-" : {
+          "short" : "name",
+          "text" : "Name"
+        },
+        "-JU7Orp15qq-ok-jlVQA" : {
+          "short" : "company",
+          "text" : "Company"
+        },
+        "-JU7OuavbPQwIJI8N9km" : {
+          "short" : "Job Title",
+          "text" : "Job Title"
+        }
+      },
+      "responses" : {
+        "-JU7RAr0ZW4e-26C5oVy" : {
+          "kano" : {
+            "d" : {
+              "cost" : 3,
+              "established" : 4,
+              "flexibility" : 4,
+              "specificity" : 2,
+              "web conducted" : 5
+            },
+            "f" : {
+              "cost" : "1",
+              "established" : 2,
+              "flexibility" : 3,
+              "specificity" : 1,
+              "web conducted" : 2
+            },
+            "i" : {
+              "cost" : 8,
+              "established" : 4,
+              "flexibility" : 2,
+              "specificity" : 7,
+              "web conducted" : 7
+            },
+            "k" : {
+              "cost" : "A",
+              "established" : "I",
+              "flexibility" : "I",
+              "specificity" : "A",
+              "web conducted" : "M"
+            }
+          },
+          "qualifiers" : {
+            "Job Title" : "Product Manager",
+            "company" : "AA inc",
+            "name" : "Adam"
+          }
+        },
+        "-JU7VnEgb0EpFF-iMCzg" : {
+          "kano" : {
+            "d" : {
+              "cost" : 5,
+              "established" : 3,
+              "flexibility" : 1,
+              "specificity" : 5,
+              "web conducted" : 3
+            },
+            "f" : {
+              "cost" : 2,
+              "established" : 3,
+              "flexibility" : 4,
+              "specificity" : 2,
+              "web conducted" : 3
+            },
+            "i" : {
+              "cost" : 8,
+              "established" : 2,
+              "flexibility" : 3,
+              "specificity" : 10,
+              "web conducted" : 4
+            },
+            "k" : {
+              "cost" : "M",
+              "established" : "I",
+              "flexibility" : "R",
+              "specificity" : "M",
+              "web conducted" : "I"
+            }
+          },
+          "qualifiers" : {
+            "Job Title" : "Chief Pizza Taste Researcher",
+            "company" : "Brooklyn Pizza Company",
+            "name" : "Benjamin"
+          }
+        }
+      }
+    },
+    "test" : {
+      "header" : {
+        "name" : "test",
+        "prettyName" : "This Is A Test"
+      },
+      "kanoQuestions" : {
+        "-JU5GTWcVfI4Y2eSKgUe" : {
+          "dysfunctional" : "If I didn't know your name, how would you feel?",
+          "functional" : "If I knew your name, how would you feel?",
+          "importance" : "Knowing your name",
+          "short" : "nameknowing"
+        },
+        "-JU64y_StDp7nRyQ_aIm" : {
+          "dysfunctional" : "If the product didn't know how old you were, how would you feel?",
+          "functional" : "If the product knew how old you were, how would you feel?",
+          "importance" : "Knowing your age",
+          "short" : "ageKnowing"
+        }
+      },
+      "qualifyingQuestions" : {
+        "-JU5GESnjNzLQ-1bmFR2" : {
+          "short" : "name",
+          "text" : "What is your name?"
+        },
+        "-JU5GIH69o7oOdsd27vs" : {
+          "short" : "color",
+          "text" : "What is your favorite color?"
+        }
+      },
+      "responses" : {
+        "-JU65Aplzbbdnlz1zNNq" : {
+          "kano" : {
+            "d" : {
+              "ageKnowing" : 3,
+              "nameknowing" : 5
+            },
+            "f" : {
+              "ageKnowing" : 1,
+              "nameknowing" : 2
+            },
+            "i" : {
+              "ageKnowing" : 3,
+              "nameknowing" : 5
+            },
+            "k" : {
+              "ageKnowing" : "A",
+              "nameknowing" : "M"
+            }
+          },
+          "qualifiers" : {
+            "color" : "yellow",
+            "name" : "Jake"
+          }
+        },
+        "-JU6F5HG2j8rX-o4OhGF" : {
+          "kano" : {
+            "d" : {
+              "ageKnowing" : 1,
+              "nameknowing" : 1
+            },
+            "f" : {
+              "ageKnowing" : 5,
+              "nameknowing" : 5
+            },
+            "i" : {
+              "ageKnowing" : 9,
+              "nameknowing" : 10
+            },
+            "k" : {
+              "ageKnowing" : "R",
+              "nameknowing" : "R"
+            }
+          },
+          "qualifiers" : {
+            "color" : "Blue",
+            "name" : "John"
+          }
+        },
+        "-JU6FN3ZB9pf5pU-wb7l" : {
+          "kano" : {
+            "d" : {
+              "ageKnowing" : 3,
+              "nameknowing" : 4
+            },
+            "f" : {
+              "ageKnowing" : 1,
+              "nameknowing" : 1
+            },
+            "i" : {
+              "ageKnowing" : 3,
+              "nameknowing" : 8
+            },
+            "k" : {
+              "ageKnowing" : "A",
+              "nameknowing" : "A"
+            }
+          },
+          "qualifiers" : {
+            "color" : "Black",
+            "name" : "Jak"
+          }
+        },
+        "-JU6RqICRaaiqoeyTXHJ" : {
+          "kano" : {
+            "d" : {
+              "ageKnowing" : "5",
+              "nameknowing" : "5"
+            },
+            "f" : {
+              "ageKnowing" : "3",
+              "nameknowing" : "2"
+            },
+            "i" : {
+              "ageKnowing" : "4",
+              "nameknowing" : "8"
+            },
+            "k" : {
+              "ageKnowing" : "M",
+              "nameknowing" : "M"
+            }
+          },
+          "qualifiers" : {
+            "color" : "fuchia",
+            "name" : "Jacques"
+          }
+        },
+        "-JU6Rw-1gPvwSUtPseTV" : {
+          "kano" : {
+            "d" : {
+              "ageKnowing" : "5",
+              "nameknowing" : "5"
+            },
+            "f" : {
+              "ageKnowing" : "1",
+              "nameknowing" : "1"
+            },
+            "i" : {
+              "ageKnowing" : "10",
+              "nameknowing" : "10"
+            },
+            "k" : {
+              "ageKnowing" : "O",
+              "nameknowing" : "O"
+            }
+          },
+          "qualifiers" : {
+            "color" : "Aquamarine",
+            "name" : "Jeremy"
+          }
+        }
+      }
+    }
+  }
+}

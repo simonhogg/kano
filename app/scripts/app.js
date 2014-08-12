@@ -66,7 +66,7 @@ surveyApp.factory('Survey', ['$firebase',
 surveyApp.factory('Page', function() {
     var title = 'Kano Surveyor';
     var header = 'Simon\'s Kano Surveyor';
-    var surveyId = 'sample';
+    var surveyId = '';
     return {
         title: function() {
             return title;

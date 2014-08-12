@@ -1,14 +1,46 @@
-<h3>Analysis</h3>
-<table>
-	<tr>
-		<th>&nbsp;</th>
-		<th ng-repeat="q in ['A','O','M','I','R','Q','Classification', 'Importance']">{{q}}</th>
-	</tr>
-	<tr ng-repeat="k in kanoKeys">
-		<td>{{k.key}}</td>
-		<td ng-repeat="q in ['A','O','M','I','R','Q','classification']">{{k[q]}}</td>
-		<td>{{k.iS/k.iN | number: 2}}</td>
+<h2>Analysis</h2>
+<ul>
+	<li><a ng-click="scrollTo('classification')">Classification</a></li>
+	<li><a ng-click="scrollTo('featureRanking')">Feature Ranking</a></li>
+	<li><a ng-click="scrollTo('chart')">Chart</a></li>
+</ul>
+
+	<h4 id='classification'>Classification</h4>
+	<table class="table-4">
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th ng-repeat="q in ['A','O','M','I','R','Q','Classification', 'Importance']">{{q}}</th>
 		</tr>
-</table>
-<hr>
-{{kanoKeys}}
+		</thead>
+		<tr ng-repeat="k in kanoKeys">
+			<td>{{k.key}}</td>
+			<td ng-repeat="q in ['A','O','M','I','R','Q','classification']">{{k[q]}}</td>
+			<td>{{k.iS/k.iN | number: 2}}</td>
+		</tr>
+	</table>
+
+	<h4 id='featureRanking'>Feature Ranking</h4>
+	<table class="table-4">
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>Classification</th>
+			<th>Satisfaction Potential</th>
+			<th>Dissatisfaction Potential</th>
+			<th>Self-stated Importance</th>
+			<th>"Hogg" Factor</th>
+		</tr>
+		</thead>
+		<tr ng-repeat="k in kanoKeys | orderBy:hoggFactorFunction:true">
+			<td>{{k.key}}</td>
+			<td>{{k.classification}}</td>
+			<td>{{k.positiveInfluence}}</td>
+			<td>{{k.negativeInfluence}}</td>
+			<td>{{k.iS/k.iN | number: 2}}</td>
+			<td>{{hoggFactorFunction(k)}}</td>
+		</tr>
+	</table>
+	<h4 id="chart">Chart</h4>
+	<div id="chartdiv"></div>
+	<div id="barchartdiv"></div>

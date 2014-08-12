@@ -1,4 +1,5 @@
 <div ng-controller="EditSurveyCtrl">
+<h2>Edit Survey</h2>
     <h3>Survey Header</h3>
     <p>
     <div class="g--half">
@@ -21,7 +22,7 @@
       <p>
       <form ng-submit="addQualifyingQuestion()">
         <div class="g--half">
-          <textarea rows='1' class="questionEntry" required ng-model="qqText" placeholder="Qualifying question text"></textarea>
+          <textarea rows='1' class="questionEntry qualifyingFocus" required ng-model="qqText" placeholder="Qualifying question text"></textarea>
         </div>
         <div class="g--half g--last">
           <input type="text" class="questionEntry halfwidth" required ng-model="qqShort" placeholder="short">
@@ -38,7 +39,7 @@
         <ul>
           <li>{{question.functional}}</li>
           <li>{{question.dysfunctional}}</li>
-          <li>{{question.short}}</li>
+          <li>{{question.importance}}</li>
         </ul>
       </li>
     </ol>
@@ -52,7 +53,7 @@
           <label for="kqFunctional">Functional</label>
         </div>
         <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" required ng-model="kqFunctional" placeholder="If the product had this benefit, how would you feel?"></textarea>
+          <textarea  class="questionEntry kanoFocus" required ng-model="kqFunctional" placeholder="If the product had this benefit, how would you feel?"></textarea>
         </div>
         <div class="g-wide--1 g-medium--half">
           <label for="kqDysfunctional">Dysfunctional</label>
