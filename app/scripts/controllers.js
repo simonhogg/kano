@@ -161,8 +161,8 @@ surveyControllers.controller('ViewResultsCtrl', ['$scope', '$route', 'Survey', '
     }
 ]);
 
-surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll', '$location', 'Survey', 'Page',
-    function($scope, $route, $anchorScroll, $location, Survey, Page) {
+surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll', '$location', 'Survey', 'Page', 'currentUser',
+    function($scope, $route, $anchorScroll, $location, Survey, Page, currentUser) {
         //TODO this code is copied and pasted from EditSurveyCtrl --> refactor
 
         $scope.Page = Page;
@@ -300,15 +300,16 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll
     }
 ]);
 
-surveyControllers.controller('MainCtrl', ['$scope', '$location', 'Page',
-    function($scope, $location, Page) {
+surveyControllers.controller('MainCtrl', ['$scope', '$location', 'Page', 'simpleLogin',
+    function($scope, $location, Page, simpleLogin) {
         $scope.Page = Page;
         $scope.getLinkClass = function(){
             console.log($scope.Page.surveyId());
             if($scope.Page.surveyId() === ''){
                 return 'disabled';
             }
-
         };
+
+        $scope.auth = simpleLogin;
     }
 ]);
