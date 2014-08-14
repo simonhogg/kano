@@ -5,20 +5,9 @@
 	<li><a ng-click="scrollTo('chart')">Chart</a></li>
 </ul>
 
-	<h4 id='classification'>Classification</h4>
-	<table class="table-4">
-	<thead>
-		<tr>
-			<th>&nbsp;</th>
-			<th ng-repeat="q in ['A','O','M','I','R','Q','Classification', 'Importance']">{{q}}</th>
-		</tr>
-		</thead>
-		<tr ng-repeat="k in kanoKeys">
-			<td>{{k.key}}</td>
-			<td ng-repeat="q in ['A','O','M','I','R','Q','classification']">{{k[q]}}</td>
-			<td>{{k.iS/k.iN | number: 2}}</td>
-		</tr>
-	</table>
+	<h4 id="chart">Chart</h4>
+	<div id="chartdiv"></div>
+	<div id="barchartdiv"></div>
 
 	<h4 id='featureRanking'>Feature Ranking</h4>
 	<table class="table-4">
@@ -35,12 +24,25 @@
 		<tr ng-repeat="k in kanoKeys | orderBy:hoggFactorFunction:true">
 			<td>{{k.key}}</td>
 			<td>{{k.classification}}</td>
-			<td>{{k.positiveInfluence}}</td>
-			<td>{{k.negativeInfluence}}</td>
+			<td>{{k.positiveInfluence | number: 2}}</td>
+			<td>{{k.negativeInfluence | number: 2}}</td>
 			<td>{{k.iS/k.iN | number: 2}}</td>
-			<td>{{hoggFactorFunction(k)}}</td>
+			<td>{{hoggFactorFunction(k) | number: 2}}</td>
 		</tr>
 	</table>
-	<h4 id="chart">Chart</h4>
-	<div id="chartdiv"></div>
-	<div id="barchartdiv"></div>
+
+		<h4 id='classification'>Classification</h4>
+	<table class="table-4">
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th ng-repeat="q in ['A','O','M','I','R','Q','Classification', 'Importance']">{{q}}</th>
+		</tr>
+		</thead>
+		<tr ng-repeat="k in kanoKeys">
+			<td>{{k.key}}</td>
+			<td ng-repeat="q in ['A','O','M','I','R','Q','classification']">{{k[q]}}</td>
+			<td>{{k.iS/k.iN | number: 2}}</td>
+		</tr>
+	</table>
+
