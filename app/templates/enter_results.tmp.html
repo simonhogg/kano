@@ -93,5 +93,13 @@
 					</div>
 				</li>
 			</ul></li></ol>
+			<h3>Multiple-Choice Questions</h3>
+			<ol>
+				<li ng-repeat="question in multiQuestions">
+					{{question.text}}<br>
+					<div class="kanoTable" ng-repeat="o in question.options">
+						<input type="checkbox" ng-model="$parent.formData.multi[question.short][o]" value="true"><br>{{o}}
+				</div>
+			</ol>
 			<input type="submit" value="Add" ng-click="addResults()" class="button--primary textheight">
 		</form>

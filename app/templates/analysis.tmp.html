@@ -45,4 +45,6 @@
 			<td>{{k.iS/k.iN | number: 2}}</td>
 		</tr>
 	</table>
+	<h4 id='multiChoice'>Multiple Choice Questions</h4>
+	<div ng-repeat="m in multiQuestions" name="{{m.short}}_div">{{m.text}}</div>
 

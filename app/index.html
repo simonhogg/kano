@@ -57,6 +57,7 @@
         </nav>
         <main>
         <p ng-hide="Page.surveyId() ===''" style="font-size:smaller; padding:0; font-weight: 500;">
+        <img src="http://www.gravatar.com/avatar/{{auth.user.md5_hash}}?s=60&r=pg&d=mm">
         Active Survey: {{ Page.surveyId() }}  |  Active User: {{auth.user.email}} <a ng-click="auth.$logout()">Logout</a>
         </p>
         <div ng-view ng-show="auth.user">

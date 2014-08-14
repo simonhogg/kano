@@ -1,80 +1,113 @@
 <div ng-controller="EditSurveyCtrl">
-<h2>Edit Survey</h2>
-    <h3>Survey Header</h3>
-    <p>
-    <div class="g--half">
-      <input type="text" class="questionEntry" ng-model="header.prettyName" placeholder="Survey Name" required>
-    </div>
-    <div class="g--half g--last">
-      <input type="text" ng-model="header.name" placeholder="shortName" class="questionEntry halfwidth" required>
-    </div>
+  <h2>Edit Survey</h2>
+  <h3>Survey Header</h3>
+  <p>
+  <div class="g--half">
+    <input type="text" class="questionEntry" ng-model="header.prettyName" placeholder="Survey Name" required>
+  </div>
+  <div class="g--half g--last">
+    <input type="text" ng-model="header.name" placeholder="shortName" class="questionEntry halfwidth" required>
+  </div>
+  </p>
+  <h3>Qualifying Questions</h3>
+  <ol>
+    <li ng-repeat="question in qualifyingQuestions">
+      {{question.text}} [{{question.short}}] | <a ng-click="qualifyingQuestions.$remove(question)">X</a>
+    </li>
+  </ol>
+  <section class="sh_highlight highlight-module--inline" name='new_question'>
+    <p class="highlight-module__title">
+    New Qualifying Question
     </p>
-    <h3>Qualifying Questions</h3>
-    <ol>
-      <li ng-repeat="question in qualifyingQuestions">
-        {{question.text}} [{{question.short}}] | <a ng-click="qualifyingQuestions.$remove(question)">X</a>
-      </li>
-    </ol>
-    <section class="sh_highlight highlight-module--inline" name='new_question'>
-      <p class="highlight-module__title">
-      New Qualifying Question
-      </p>
-      <p>
-      <form ng-submit="addQualifyingQuestion()">
-        <div class="g--half">
-          <textarea rows='1' class="questionEntry qualifyingFocus" required ng-model="qqText" placeholder="Qualifying question text"></textarea>
-        </div>
-        <div class="g--half g--last">
-          <input type="text" class="questionEntry halfwidth" required ng-model="qqShort" placeholder="short">
-          <input type="submit" value="Add" class="button--primary textheight">
-        </div>
-        <br>
-      </form>
-      </p>
-    </section>
-    <h3>Kano Questions</h3>
-    <ol>
-      <li ng-repeat="question in kanoQuestions">
-        <a ng-click="kanoQuestions.$remove(question)">X</a>
-        <ul>
-          <li>{{question.functional}}</li>
-          <li>{{question.dysfunctional}}</li>
-          <li>{{question.importance}}</li>
-        </ul>
-      </li>
-    </ol>
-    <section class="sh_highlight highlight-module--inline" name='new_question'>
-      <p class="highlight-module__title">
-      New Kano Question
-      </p>
-      <p>
-      <form ng-submit="addKanoQuestion()">
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqFunctional">Functional</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea  class="questionEntry kanoFocus" required ng-model="kqFunctional" placeholder="If the product had this benefit, how would you feel?"></textarea>
-        </div>
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqDysfunctional">Dysfunctional</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" required ng-model="kqDysfunctional" placeholder="If the product did not have this benefit, how would you feel?"></textarea>
-        </div>
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqImportance">Importance</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <textarea class="questionEntry" required ng-model="kqImportance" placeholder="This benefit"></textarea>
-        </div>
-        <div class="g-wide--1 g-medium--half">
-          <label for="kqShort">Short</label>
-        </div>
-        <div class="g-wide--3 g-wide--last g-medium--half g--last">
-          <input type="text" class="questionEntry" required ng-model="kqShort" placeholder="benefit">
-        </div>
-        <input type="submit" value="Add" class="button--primary">
-      </form>
-      </p>
-    </section>
-    </div>
+    <p>
+    <form ng-submit="addQualifyingQuestion()">
+      <div class="g--half">
+        <textarea rows='1' class="questionEntry qualifyingFocus" required ng-model="qqText" placeholder="Qualifying question text"></textarea>
+      </div>
+      <div class="g--half g--last">
+        <input type="text" class="questionEntry halfwidth" required ng-model="qqShort" placeholder="short">
+        <input type="submit" value="Add" class="button--primary textheight">
+      </div>
+      <br>
+    </form>
+    </p>
+  </section>
+  <h3>Kano Questions</h3>
+  <ol>
+    <li ng-repeat="question in kanoQuestions">
+      <a ng-click="kanoQuestions.$remove(question)">X</a>
+      <ul>
+        <li>{{question.functional}}</li>
+        <li>{{question.dysfunctional}}</li>
+        <li>{{question.importance}}</li>
+      </ul>
+    </li>
+  </ol>
+  <section class="sh_highlight highlight-module--inline" name='new_question'>
+    <p class="highlight-module__title">
+    New Kano Question
+    </p>
+    <p>
+    <form ng-submit="addKanoQuestion()">
+      <div class="g-wide--1 g-medium--half">
+        <label for="kqFunctional">Functional</label>
+      </div>
+      <div class="g-wide--3 g-wide--last g-medium--half g--last">
+        <textarea  class="questionEntry kanoFocus" required ng-model="kqFunctional" placeholder="If the product had this benefit, how would you feel?"></textarea>
+      </div>
+      <div class="g-wide--1 g-medium--half">
+        <label for="kqDysfunctional">Dysfunctional</label>
+      </div>
+      <div class="g-wide--3 g-wide--last g-medium--half g--last">
+        <textarea class="questionEntry" required ng-model="kqDysfunctional" placeholder="If the product did not have this benefit, how would you feel?"></textarea>
+      </div>
+      <div class="g-wide--1 g-medium--half">
+        <label for="kqImportance">Importance</label>
+      </div>
+      <div class="g-wide--3 g-wide--last g-medium--half g--last">
+        <textarea class="questionEntry" required ng-model="kqImportance" placeholder="This benefit"></textarea>
+      </div>
+      <div class="g-wide--1 g-medium--half">
+        <label for="kqShort">Short</label>
+      </div>
+      <div class="g-wide--3 g-wide--last g-medium--half g--last">
+        <input type="text" class="questionEntry" required ng-model="kqShort" placeholder="benefit">
+      </div>
+      <input type="submit" value="Add" class="button--primary">
+    </form>
+    </p>
+  </section>
+<h3>Multiple-Choice Questions</h3>
+<ol>
+  <li ng-repeat="question in multiQuestions">
+    <a ng-click="multiQuestions.$remove(question)">X</a>
+    {{question.text}}
+    <ul>
+      <li ng-repeat="o in question.options">{{o}}</li>
+    </ul>
+  </li>
+</ol>
+  <section class="sh_highlight highlight-module--inline" name='new_question'>
+    <p class="highlight-module__title">
+    New Multiple Choice Question
+    </p>
+    <p>
+    <form ng-submit="addMultiQuestion()">
+      <div class="g--half">
+        <textarea rows='1' class="questionEntry qualifyingFocus" required ng-model="multiText" placeholder="Multiple choice question"></textarea>
+      </div>
+      <div class="g--half g--last">
+        <input type="text" class="questionEntry halfwidth" required ng-model="multiShort" placeholder="short">
+        <input type="number" class="questionEntry halfwidth" required ng-model="multiNum" placeholder="#">
+      </div>
+      <br>
+      <ol>
+        <li ng-repeat="i in range(multiNum) track by $index">
+          <input type="text" class="questionEntry halfwidth" required ng-model="multiOptions[$index]" placeholder="response {{$index+1}}">
+        </li>
+      </ol>
+      <input type="submit" value="Add" class="button--primary textheight">
+    </form>
+    </p>
+  </section>
+</div>

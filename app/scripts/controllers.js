@@ -22,6 +22,7 @@ surveyControllers.controller('EditSurveyCtrl', ['$scope', '$route', 'Survey', 'P
         $scope.header.$bindTo($scope, 'header');
         $scope.qualifyingQuestions = Survey.keyRef($scope.Page.surveyId(), 'qualifyingQuestions').$asArray();
         $scope.kanoQuestions = Survey.keyRef($scope.Page.surveyId(), 'kanoQuestions').$asArray();
+        $scope.multiQuestions = Survey.keyRef($scope.Page.surveyId(), 'multiQuestions').$asArray();
 
         // Set a nicer title
         $scope.Page.setTitle('Kano Surveyor | Edit Survey');
@@ -39,6 +40,10 @@ surveyControllers.controller('EditSurveyCtrl', ['$scope', '$route', 'Survey', 'P
             $scope.kqShort = '';
         };
 
+        $scope.range = function(num) {
+            return new Array(num);
+        }
+
         $scope.addQualifyingQuestion = function() {
             $scope.qualifyingQuestions.$add({
                 text: $scope.qqText,
@@ -47,6 +52,21 @@ surveyControllers.controller('EditSurveyCtrl', ['$scope', '$route', 'Survey', 'P
             $scope.qqText = '';
             $scope.qqShort = '';
         };
+
+        $scope.resetMulti = function() {
+            $scope.multiText = '';
+            $scope.multiShort = '';
+            $scope.multiOptions = {};
+        };
+        $scope.resetMulti();
+
+        $scope.addMultiQuestion = function() {
+            $scope.multiQuestions.$add({
+                text: $scope.multiText,
+                short: $scope.multiShort,
+                options: $scope.multiOptions
+            });
+        }
 
         $scope.removeKanoQuestion = function(id) {
             $scope.kanoQuestions.$remove(id);
@@ -74,7 +94,7 @@ surveyControllers.controller('SelectSurveyCtrl', ['$scope', 'Survey', 'Page',
             //TODO add confirmation
             $scope.surveyIds.$remove(survey);
             Survey.surveysRoot().child(survey.$value).remove();
-            if(survey.$value === $scope.Page.surveyId()){
+            if (survey.$value === $scope.Page.surveyId()) {
                 $scope.Page.setSurveyId('');
             }
         };
@@ -95,6 +115,11 @@ surveyControllers.controller('EnterResultsCtrl', ['$scope', '$route', 'Survey', 
         $scope.header.$bindTo($scope, 'header');
         $scope.qualifyingQuestions = Survey.keyRef($scope.Page.surveyId(), 'qualifyingQuestions').$asArray();
         $scope.kanoQuestions = Survey.keyRef($scope.Page.surveyId(), 'kanoQuestions').$asArray();
+        $scope.multiQuestions = Survey.keyRef($scope.Page.surveyId(), 'multiQuestions').$asArray();
+
+        $scope.multiQuestions.$loaded().then(function(x) {
+            $scope.clearForm();
+        });
 
         // Set a nicer title
         $scope.Page.setTitle('Kano Surveyor | Enter Data');
@@ -107,8 +132,20 @@ surveyControllers.controller('EnterResultsCtrl', ['$scope', '$route', 'Survey', 
             $scope.formData.kano.d = {};
             $scope.formData.kano.i = {};
             $scope.formData.kano.k = {};
+            $scope.formData.multi = {};
+            for (var i = 0; i < $scope.multiQuestions.length; i++) {
+                $scope.formData.multi[$scope.multiQuestions[i].short] = {}
+                for (var j = 0; j < $scope.multiQuestions[i].options.length; j++) {
+                    $scope.formData.multi[$scope.multiQuestions[i].short][$scope.multiQuestions[i].options[j]] = {};
+                };
+            };
         };
-        $scope.clearForm();
+
+
+        $scope.updateMultiVal = function(question, myValue) {
+            console.log(question);
+            console.log(myValue);
+        }
 
 
         $scope.addResults = function() {
@@ -135,7 +172,12 @@ surveyControllers.controller('EnterResultsCtrl', ['$scope', '$route', 'Survey', 
                 ['R', 'I', 'I', 'I', 'M'],
                 ['R', 'R', 'R', 'R', 'Q']
             ];
-            return lut[functional - 1][dysfunctional - 1];
+            if (functional > 0 && functional < 6 && dysfunctional > 0 && dysfunctional < 6) {
+                return lut[functional - 1][dysfunctional - 1];
+            } else {
+                return '';
+            }
+
         };
     }
 ]);
@@ -154,6 +196,7 @@ surveyControllers.controller('ViewResultsCtrl', ['$scope', '$route', 'Survey', '
         $scope.header.$bindTo($scope, 'header');
         $scope.qualifyingQuestions = Survey.keyRef($scope.Page.surveyId(), 'qualifyingQuestions').$asArray();
         $scope.kanoQuestions = Survey.keyRef($scope.Page.surveyId(), 'kanoQuestions').$asArray();
+        //$scope.multiQuestions = Survey.keyRef($scope.Page.surveyId(), 'multiQuestions').$asArray();
         $scope.results = Survey.keyRef($scope.Page.surveyId(), 'responses').$asArray();
 
         // Set a nicer title
@@ -185,6 +228,7 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll
         $scope.header.$bindTo($scope, 'header');
         $scope.qualifyingQuestions = Survey.keyRef($scope.Page.surveyId(), 'qualifyingQuestions').$asArray();
         $scope.kanoQuestions = Survey.keyRef($scope.Page.surveyId(), 'kanoQuestions').$asArray();
+        $scope.multiQuestions = Survey.keyRef($scope.Page.surveyId(), 'multiQuestions').$asArray();
         $scope.responses = Survey.keyRef($scope.Page.surveyId(), 'responses').$asArray();
 
 
@@ -210,6 +254,24 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll
                     'negativeInfluence': 0.0
                 });
             }
+        });
+
+        $scope.multiKeys = [];
+        $scope.multiQuestions.$loaded().then(function() {
+            for (var j = 0; j < $scope.multiQuestions.length; j++) {
+                var key = {
+                    'key': $scope.multiQuestions[j].short,
+                    'options': []
+                };
+                for (var k = 0; k < $scope.multiQuestions[j].options.length; k++) {
+                    key.options.push({
+                        'id': $scope.multiQuestions[j].options[k],
+                        'count': 0
+                    });
+                }
+                $scope.multiKeys.push(key);
+            }
+            console.log($scope.multiKeys);
         });
 
         // Loop through all the responses and tally votes
@@ -241,29 +303,39 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll
                         $scope.kanoKeys[k].classification = letters[w];
                     }
                 }
-                console.log($scope.kanoKeys[k]);
             }
 
             // plot some charts
             var preChartData = [
-                ['ID', 'Dissatisfaction', 'Satisfaction', 'Importance' ,'']
+                ['ID', 'Dissatisfaction', 'Satisfaction', 'Importance', '']
             ];
-            
+
             for (var z = 0; z < $scope.kanoKeys.length; z++) {
                 var kz = $scope.kanoKeys[z];
                 preChartData.push([kz.key, kz.negativeInfluence, kz.positiveInfluence, kz.classification, kz.iS / kz.iN]);
             }
             //$scope.preChartData = preChartData;
 
-            console.log(preChartData);
             var chartData = google.visualization.arrayToDataTable(preChartData);
             var chartOptions = {
                 sortBubblesBySize: true,
                 height: 800,
                 width: 800,
-                sizeAxis: {maxSize: 30, minSize: 5},
-                hAxis: {title: 'Potential to Drive Dissatisfaction', direction:-1, maxValue:-1.0, minValue:0},
-                vAxis: {title: 'Potential to Drive Satisfaction', maxValue:1.0, minValue:0},
+                sizeAxis: {
+                    maxSize: 30,
+                    minSize: 5
+                },
+                hAxis: {
+                    title: 'Potential to Drive Dissatisfaction',
+                    direction: -1,
+                    maxValue: -1.0,
+                    minValue: 0
+                },
+                vAxis: {
+                    title: 'Potential to Drive Satisfaction',
+                    maxValue: 1.0,
+                    minValue: 0
+                },
                 bubble: {
                     textStyle: {
                         auraColor: 'none'
@@ -277,7 +349,7 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll
             var preBarChartData = [
                 ['ID', 'Dissatisfaction', 'Satisfaction']
             ];
-            
+
             for (z = 0; z < $scope.kanoKeys.length; z++) {
                 var k2z = $scope.kanoKeys[z];
                 preBarChartData.push([k2z.key, k2z.negativeInfluence, k2z.positiveInfluence]);
@@ -289,6 +361,19 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll
             var barChart = new google.visualization.BarChart(document.getElementById('barchartdiv'));
             barChart.draw(barChartData, baroptions);
 
+            for (var i = 0; i < $scope.multiKeys.length; i++) {
+                var m = $scope.multiKeys[i].key;
+                for (var j = 0; j < $scope.responses.length; j++) {
+                    for (var k = 0; k < $scope.multiKeys[i].options.length; k++) {
+                        if ($scope.responses[j].multi[m][$scope.multiKeys[i].options[k].id]) {
+                            $scope.multiKeys[i].options[k].count++;
+                        }
+                    }
+                }
+            }
+            console.log($scope.multiKeys);
+
+            //TODO generate graphs based on multiKeys
 
         });
 
@@ -303,9 +388,8 @@ surveyControllers.controller('AnalysisCtrl', ['$scope', '$route', '$anchorScroll
 surveyControllers.controller('MainCtrl', ['$scope', '$location', 'Page', 'simpleLogin',
     function($scope, $location, Page, simpleLogin) {
         $scope.Page = Page;
-        $scope.getLinkClass = function(){
-            console.log($scope.Page.surveyId());
-            if($scope.Page.surveyId() === ''){
+        $scope.getLinkClass = function() {
+            if ($scope.Page.surveyId() === '') {
                 return 'disabled';
             }
         };
